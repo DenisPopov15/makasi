@@ -24,6 +24,19 @@ module Makasi
                              "\n"
         end
         puts cloudsearch_doc.url
+        a = {
+        url:              cloudsearch_doc.url,
+        title:            title_of(html_doc)[0..MAX_TEXT_SIZE],
+        content:          content_of(html_doc)[0..MAX_TEXT_SIZE],
+        author:           meta_tag_for(html_doc, "author")[0..MAX_TEXT_SIZE],
+        content_language: language_of(html_doc)[0..MAX_LITERAL_SIZE],
+        description:      meta_tag_for(html_doc, "description")[0..MAX_TEXT_SIZE],
+        keywords:         meta_tag_for(html_doc, "keywords").split(",").map(&:strip),
+        resource_type:    meta_tag_for(html_doc, "resource_type")[0..MAX_TEXT_SIZE],
+        resource_name:    resource_name_of(html_doc)[0..MAX_TEXT_SIZE],
+        resource_id:      meta_tag_for(html_doc, "resource_id")[0..MAX_TEXT_SIZE]
+      }
+      ap a
         add_item_to_cloudsearch(cloudsearch_doc, html_doc)
 
         cloudsearch_doc.update_attributes(reindexed_at: DateTime.now)
