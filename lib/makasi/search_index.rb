@@ -68,7 +68,7 @@ module Makasi
         return ""
       end
 
-
+       url += "/" unless url.ends_with?("/")
        if url.start_with?('https') then
         parsed_url = URI.parse(url)
         http = Net::HTTP.new(parsed_url.host, parsed_url.port)
